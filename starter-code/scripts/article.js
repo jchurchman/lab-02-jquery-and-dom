@@ -5,6 +5,12 @@ var articles = [];
 function Article (rawDataObj) {
   // TODO: Use the JS object passed in to complete this constructor function:
   // Save ALL the properties of `rawDataObj` into `this`
+  this.title = rawDataObj.title;
+  this.category = rawDataObj.category;
+  this.author = rawDataObj.author;
+  this.authorURL = rawDataObj.authorURL;
+  this.publishedOn = rawDataObj.publishedOn;
+  this.body = rawDataObj.body
 }
 
 Article.prototype.toHtml = function() {
@@ -13,8 +19,9 @@ Article.prototype.toHtml = function() {
   However, in our modules.css stylesheet, we gave all elements
   with a class of template a display of none. Let's make
   sure we're not accidentally hiding our cloned article! */
+  $newArticle.removeAttr('class');
 
-  if (!this.publishedOn) $newArticle.addClass('draft');
+ if (!this.publishedOn) $newArticle.addClass('draft');
   $newArticle.data('category', this.category);
 
   /* TODO: Now use jQuery traversal and setter methods to fill in the rest
@@ -25,6 +32,14 @@ Article.prototype.toHtml = function() {
     3. article title,
     4. article body, and
     5. publication date. */
+  
+  $newArticle.attr('class', 'entry');
+  $('article.entry:last a').text(this.author);
+  $('article.entry:last a').attr('href',this.authorURL);
+  $('article.entry:last h1').text(this.title);
+  $('article.entry:last .article-body').text(this.body);
+  $('article.entry:last time').attr('datetime',this.publishedOn);
+ 
 
   // Display the date as a relative number of 'days ago'
   $newArticle.find('time').html('about ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
