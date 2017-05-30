@@ -21,7 +21,7 @@ Article.prototype.toHtml = function() {
   sure we're not accidentally hiding our cloned article! */
   $newArticle.removeAttr('class');
 
-  if (!this.publishedOn) $newArticle.addClass('draft');
+ if (!this.publishedOn) $newArticle.addClass('draft');
   $newArticle.data('category', this.category);
 
   /* TODO: Now use jQuery traversal and setter methods to fill in the rest
@@ -32,12 +32,14 @@ Article.prototype.toHtml = function() {
     3. article title,
     4. article body, and
     5. publication date. */
-
-  $('address > a').text(this.author);
-  $('address > a').attr('href',this.authorURL);
-  $('header > h1').text(this.title);
-  $('.articel-body').text(this.body);
-  $('time').attr('datetime',this.publishedOn);
+  
+  $newArticle.attr('class', 'entry');
+  $('article.entry:last a').text(this.author);
+  $('article.entry:last a').attr('href',this.authorURL);
+  $('article.entry:last h1').text(this.title);
+  $('article.entry:last .article-body').text(this.body);
+  $('article.entry:last time').attr('datetime',this.publishedOn);
+ 
 
   // Display the date as a relative number of 'days ago'
   $newArticle.find('time').html('about ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
